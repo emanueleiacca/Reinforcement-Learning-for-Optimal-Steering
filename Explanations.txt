@@ -1,0 +1,30 @@
+A diffusion model creates an image step by step.
+And at every step, inside the model, there are the latent representations that is basically the model’s internal thoughts about what the image should look like and it's here that our risky detail first appear.
+
+The idea is to let a Reinforcement Learning agent look inside these internal thoughts while the image is being formed. It will receive a state that consist on multiple information such as where and when the img start to appear, the actual layer it's inspecting and the meaning of the prompt (from text embedding, to avoid misunderstandings).
+
+If it notices something unsafe starts to appear, it can make a small adjustment to push the model in a safer direction pushing the latent, lowering the attention on risky words in the prompt and adding a bit of controlled noise to break a harmful detail
+
+We will reward the agent using:
+Safety classifier score → to check if the unsafe element is still present
+
+CLIP similarity → to check if the image stays aligned with the safe eversion of the prompt
+LPIPS → to check the quality of the final img
+
+And also we will penalize the model
+OT/KL → penalty / stability so the agent can’t cheat by simply ruining the image (changing model internal trajectory)
+
+Adversarial tests for edge cases → extra evaluation, not necessarily in the loss
+
+As RL algorithms we gonna use PPO or SAC, which are great for starting out because they’re stable and designed for continuous control 
+
+The real novelty is that this is the first approach that uses RL to adaptively steer a generative model in real time, without retraining anything.
+The agent learns when to intervene, where to intervene, and by how much, something static methods simply cannot do.”
+
+To evaluate our method, we test it on prompts that are known to trigger unsafe content — things like violence, weapons, nudity, or risky compositions.
+We wil also create paired prompts, like ‘violent scene’ versus ‘peaceful scene’, or ‘with weapon’ versus ‘without weapon’, so we can measure how well the agent removes only the unsafe concept while keeping the rest of the image consistent.
+
+We compare our RL steering to strong training-free baselines such as SAFREE, CASteer which are currently the main techniques people use, and they’re all static, so they don’t adapt during generation.
+
+What we expect is that the RL agent will learn very specific behaviors — for example, exactly which layers tend to encode unsafe concepts and at which timesteps those concepts appear.
+Overall, we expect our approach to remove harmful content more reliably than static methods, while keeping the final image coherent, natural, and as close as possible to what the user originally wanted
