@@ -1,0 +1,5 @@
+https://huggingface.co/datasets/AIML-TUDA/i2p
+https://huggingface.co/Falconsai/nsfw_image_detection
+https://www.reddit.com/r/StableDiffusion/comments/14qrdy4/share_your_experience_what_is_the_optimum_number/
+https://huggingface.co/blog/stable_diffusion
+https://arxiv.org/abs/2006.04779
